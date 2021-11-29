@@ -343,7 +343,8 @@ def compute_fitness(observed_transcript_numbers, target_frequencies):
     -------
     fitnness : float
         computed fitness of the invidual, following the formula:
-            fitness = exp(-sum(|ln(observed_for_gene_i / target_for_gene_i)|))
+            .. math::
+            	fitness =  \exp\left(-\sum\left|\ln\left(\\frac{observed\_for\_gene\_i}{target\_for\_gene\_i}\\right)\\right|\\right)
     """
     
     observed_frequencies = (observed_transcript_numbers
@@ -678,7 +679,8 @@ def evolution(start, end, barr, out, genome_size, initial_expression, previous_f
         for each gene, ordered by gene ID.
     previous_fitness : float
         computed initial fitness of the invidual, following the formula:
-            fitness = exp(-sum(|ln(observed_for_gene_i / target_for_gene_i)|))
+            .. math::
+            	fitness = \exp\left(-\sum\left|\ln\left(\\frac{observed\_for\_gene\_i}{target\_for\_gene\_i}\\right)\\right|\\right)
     target_freqs : Numpy array
         Array of floats representing target relative expression level for each gene.
     discret_step : int

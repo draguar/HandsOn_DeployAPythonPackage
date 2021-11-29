@@ -1,0 +1,471 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ourCode module &#8212; HandsOnDeployaPackage  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/haiku.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="modules.html" /> 
+  </head><body>
+      <div class="header" role="banner"><h1 class="heading"><a href="index.html">
+          <span>HandsOnDeployaPackage  documentation</span></a></h1>
+        <h2 class="heading"><span>ourCode module</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        «&#160;&#160;<a href="modules.html">&lt;no title&gt;</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+      </div>
+      <div class="content" role="main">
+        
+        
+  <section id="module-ourCode">
+<span id="ourcode-module"></span><h1>ourCode module<a class="headerlink" href="#module-ourCode" title="Permalink to this headline">¶</a></h1>
+<p>Simulation of a genome evolving inside an environment without mutations on
+coding sequences.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.accept_mutation">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">accept_mutation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">previous_fitness</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_fitness</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.accept_mutation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accept or reject the mutation, based on fitnesses comparison.</p>
+<p>A fitness increase is always accepted. A fitness loss is accepted with
+a probability exp(fitness difference / q).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>previous_fitness</strong> (<em>float</em>) – Fitness of the previous generation (before mutation).</p></li>
+<li><p><strong>new_fitness</strong> (<em>float</em>) – Fitness of the new generation (after mutation).</p></li>
+<li><p><strong>q</strong> (<em>float</em>) – Parameters of the Monte Carlo Metropolis algorithm, controlling the
+range of accepted fitness losses.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>is_accepted</strong> (<em>bool</em>) – True if the mutation is accepted, False else.</p></li>
+<li><p><em>&gt;&gt;&gt; accept_mutation(0, float(‘Inf’), 1)</em></p></li>
+<li><p><em>True</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.compute_fitness">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">compute_fitness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">observed_transcript_numbers</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_frequencies</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.compute_fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the fitness of an individual with given gene expression pattern
+in given environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>observed_transcript_numbers</strong> (<em>Numpy array</em>) – Array of ints representing the observed number of transcripts for each
+gene of the invidual.</p></li>
+<li><p><strong>target_frequencies</strong> (<em>Numpy array</em>) – Array of floats representing target relative expression level for each
+gene (environment).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><strong>fitnness</strong> –</p>
+<dl>
+<dt>computed fitness of the invidual, following the formula:</dt><dd><div class="math notranslate nohighlight">
+\[fitness =  \exp\left(-\sum\left|\ln\left(\frac{observed\_for\_gene\_i}{target\_for\_gene\_i}\right)\right|\right)\]</div>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.copy_genome">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">copy_genome</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">PARAMS</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.copy_genome" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy the last accepted genome to save it</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>PARAMS</strong> (<em>Python list</em>) – <dl class="simple">
+<dt>list of the following parameters:</dt><dd><dl class="simple">
+<dt>NEXT_GEN_GFF<span class="classifier">str</span></dt><dd><p>Name of the .gff file (gene positions) at the next generation.</p>
+</dd>
+<dt>NEXT_GEN_TSS<span class="classifier">str</span></dt><dd><p>Name of the TSS file (gene start positions)
+at the next generation.</p>
+</dd>
+<dt>NEXT_GEN_TTS<span class="classifier">str</span></dt><dd><p>Name of the TTS file (gene end positions)
+at the next generation.</p>
+</dd>
+<dt>NEXT_GEN_BARRIERS<span class="classifier">str</span></dt><dd><p>Name of the .dat file containing barrier positions
+at the next generation.</p>
+</dd>
+<dt>LAST_ACCEPTED_GENOME<span class="classifier">list of str</span></dt><dd><p>Name of the equivalent files, where we want to copy the previous ones.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Nothing is returned, but the files are created or updated.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.evolution">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">evolution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">barr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genome_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_expression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">previous_fitness</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_freqs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discret_step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inversion_proba</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_insertion</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nb_generations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PARAMS</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.evolution" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simulate the evolution with a Monte-Carlo Metropolis algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>start</strong> (<em>Numpy array</em>) – Array of ints representing the begining position of genes.</p></li>
+<li><p><strong>end</strong> (<em>Numpy array</em>) – Array of ints representing the ending position of genes.</p></li>
+<li><p><strong>barr</strong> (<em>Numpy array</em>) – Array of ints representing the position of barriers.</p></li>
+<li><p><strong>out</strong> (<em>Python list</em>) – list of the open position intervals in the genome where there
+are not any genes</p></li>
+<li><p><strong>genome_size</strong> (<em>int</em>) – Genome size in base pair.</p></li>
+<li><p><strong>initial_expression</strong> (<em>Numpy array</em>) – Array of ints representing the initial number of transcripts
+for each gene, ordered by gene ID.</p></li>
+<li><p><strong>previous_fitness</strong> (<em>float</em>) – <dl>
+<dt>computed initial fitness of the invidual, following the formula:</dt><dd><div class="math notranslate nohighlight">
+\[fitness = \exp\left(-\sum\left|\ln\left(\frac{observed\_for\_gene\_i}{target\_for\_gene\_i}\right)\right|\right)\]</div>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>target_freqs</strong> (<em>Numpy array</em>) – Array of floats representing target relative expression level for each gene.</p></li>
+<li><p><strong>discret_step</strong> (<em>int</em>) – Size of an indel event (in base pairs)</p></li>
+<li><p><strong>inversion_proba</strong> (<em>float</em>) – Probability for an event to be an inversion.</p></li>
+<li><p><strong>p_insertion</strong> (<em>float</em>) – Probability for an indel event to be an insertion.</p></li>
+<li><p><strong>nb_generations</strong> (<em>int</em>) – Number of generations to run the simulation.</p></li>
+<li><p><strong>PARAMS</strong> (<em>Python list</em>) – <dl class="simple">
+<dt>list of the following parameters:</dt><dd><dl class="simple">
+<dt>NEXT_GEN_PARAMS<span class="classifier">str</span></dt><dd><p>Path and name of the parameter file necessary for
+the expression_simulation function, at the next generation.</p>
+</dd>
+<dt>NEXT_GEN_GFF<span class="classifier">str</span></dt><dd><p>Name of the .gff file (gene positions) at the next generation.</p>
+</dd>
+<dt>NEXT_GEN_TSS<span class="classifier">str</span></dt><dd><p>Name of the TSS file (gene start positions)
+at the next generation.</p>
+</dd>
+<dt>NEXT_GEN_TTS<span class="classifier">str</span></dt><dd><p>Name of the TTS file (gene end positions)
+at the next generation.</p>
+</dd>
+<dt>NEXT_GEN_BARRIERS<span class="classifier">str</span></dt><dd><p>Name of the .dat file containing barrier positions
+at the next generation.</p>
+</dd>
+<dt>LAST_ACCEPTED_GENOME<span class="classifier">list of str</span></dt><dd><p>5 equivalent files for the last genome to save</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>accepted_fitnesses</strong> (<em>list of floats</em>) – Evolution of the system fitness (only fixed mutations)</p></li>
+<li><p><strong>proposed_fitnesses</strong> (<em>list of floats</em>) – Fitness following the proposed mutation (whether it is fixed or not)</p></li>
+<li><p><strong>accepted_status</strong> (<em>list of str</em>) – For each generation, either “accepted” or “rejected” depending
+on the status of the proposed mutation</p></li>
+<li><p><strong>all_types</strong> (<em>list of str</em>) – For each generation, the mutation type: “insertion”, “deletion”
+or “inversion”.</p></li>
+<li><p><strong>generation_numbers</strong> (<em>list of ints</em>) – Number of each generation</p></li>
+<li><p><strong>final_expression</strong> (<em>list of ints</em>) – Number of copies of each gene’s transcript following the last
+expression simulation of the accepted genome.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.evolutive_event">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">evolutive_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">discret_step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inversion_proba</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genome_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genes_start_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genes_end_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">barriers_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_positions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_insertion</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.evolutive_event" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate an evolutive event on given genome.</p>
+<p>The event can either be a genome inversion (with probability inversion_proba),
+or an indel. An indel is an insertion with probability p_insertion</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inversion_proba</strong> (<em>float</em>) – Probability for the event to be an inversion.</p></li>
+<li><p><strong>genome_size</strong> (<em>int</em>) – Genome size in base pair.</p></li>
+<li><p><strong>genes_start_pos</strong> (<em>Numpy array</em>) – Array of ints representing the begining position of genes.</p></li>
+<li><p><strong>genes_end_pos</strong> (<em>Numpy array</em>) – Array of ints representing the ending position of genes.</p></li>
+<li><p><strong>barriers_pos</strong> (<em>Numpy array</em>) – Array of ints representing the position of barriers.</p></li>
+<li><p><strong>out_positions</strong> (<em>Numpy array</em>) – 2-D array of ints. Each line represents an open interval containing
+no gene nor barrier.</p></li>
+<li><p><strong>p_insertion</strong> (<em>float</em>) – Probability for an indel event to be an insertion.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>genome_size</strong> (<em>ine</em>) – Updated value of genome_size after the event.</p></li>
+<li><p><strong>genes_start_pos</strong> (<em>Numpy array</em>) – Updated value of genes_start_pos after the event.</p></li>
+<li><p><strong>genes_end_pos</strong> (<em>Numpy array</em>) – Updated value of genes_end_pos after the event.</p></li>
+<li><p><strong>barriers_pos</strong> (<em>Numpy array</em>) – Updated value of barriers_pos after the event.</p></li>
+<li><p><strong>genome_size</strong> (<em>int</em>) – Updated value of the genome size.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.expression_simulation">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">expression_simulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gene_start_pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.expression_simulation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run  the expression  simulation with given parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params_file</strong> (<em>str</em>) – Path and name of the parameters file.</p></li>
+<li><p><strong>out_file</strong> (<em>str</em>) – Path and name of the output file.</p></li>
+<li><p><strong>gene_start_pos</strong> (<em>Numpy array</em>) – Array of ints representing the begining position of genes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>transcript_numbers</strong> – Array of ints representing the number of transcripts  for each gene,
+ordered by gene ID.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Numpy array</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Also generate a text file with the given out_file name.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.genome_inversion">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">genome_inversion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">genome_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genes_start_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genes_end_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">barriers_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inversion_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inversion_end</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.genome_inversion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform a genome innversion on given genome at given positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>genome_size</strong> (<em>int</em>) – Genome size in base pair.</p></li>
+<li><p><strong>genes_start_pos</strong> (<em>Numpy array</em>) – Array of ints representing the begining position of genes.</p></li>
+<li><p><strong>genes_end_pos</strong> (<em>Numpy array</em>) – Array of ints representing the ending position of genes.</p></li>
+<li><p><strong>barriers_pos</strong> (<em>Numpy array</em>) – Array of ints representing the position of barriers.</p></li>
+<li><p><strong>inversion_start</strong> (<em>int</em>) – Position of the beginning of the inversion in the genome.</p></li>
+<li><p><strong>inversion_end</strong> (<em>int</em>) – Position of the end of the inversion in the genome.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>event_type</strong> (<em>str</em>) – Always equal to “inversion”</p></li>
+<li><p><strong>genome_size</strong> (<em>int</em>) – Unchanged value of genome_size.</p></li>
+<li><p><strong>genes_start_pos</strong> (<em>Numpy array</em>) – Updated value of genes_start_pos after inversion.</p></li>
+<li><p><strong>genes_end_pos</strong> (<em>Numpy array</em>) – Updated value of genes_end_pos after inversion.</p></li>
+<li><p><strong>barriers_pos</strong> (<em>Numpy array</em>) – Updated value of barriers_pos after inversion.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>inversion_start and inversion_end must not be inside a gene.
+inversion_end must be greater than inversion_start.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.indel">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">indel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genome_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genes_start_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genes_end_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">barriers_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_positions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_insertion</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.indel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete or insert in the plasmid a unit with length u in base pairs</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>u</strong> (<em>int</em>) – Unit of length in base pairs that is deleted or inserted.</p></li>
+<li><p><strong>genome_size</strong> (<em>int</em>) – Genome size in base pairs.</p></li>
+<li><p><strong>genes_start_pos</strong> (<em>Numpy array</em>) – Array of ints representing the begining position of genes.</p></li>
+<li><p><strong>genes_end_pos</strong> (<em>Numpy array</em>) – Array of ints representing the ending position of genes.</p></li>
+<li><p><strong>barriers_pos</strong> (<em>Numpy array</em>) – Array of ints representing the position of barriers.</p></li>
+<li><p><strong>out_positions</strong> (<em>Numpy array</em>) – 2-D array of ints. Each line represents an open interval containing
+no gene nor barrier.</p></li>
+<li><p><strong>p_insertion</strong> (<em>float</em>) – Probability of the event to be an insertion and not a deletion.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>event_type</strong> (<em>str</em>) – Equal to “insertion” or “deletion”.</p></li>
+<li><p><strong>new_genes_start_pos</strong> (<em>Numpy array</em>) – Updated value of genes_start_pos after inversion.</p></li>
+<li><p><strong>new_genes_end_pos</strong> (<em>Numpy array</em>) – Updated value of genes_end_pos after inversion.</p></li>
+<li><p><strong>new_barriers_pos</strong> (<em>Numpy array</em>) – Updated value of barriers_pos after inversion.</p></li>
+<li><p><strong>genome_size</strong> (<em>int</em>) – Updated value of the genome size.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.parse_namefile_ini">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">parse_namefile_ini</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.parse_namefile_ini" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a line from a .ini file to get the described file location</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>line</strong> (<em>str</em>) – Line from the .ini file, containing the location of a file
+of interest.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>processed_line</strong> – Address of the file of interest</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_namefile_ini</span><span class="p">(</span><span class="s2">&quot;file = file/path.txt&quot;</span><span class="p">)</span>
+<span class="go">&#39;file/path.txt&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.pos_out_from_pos_lists">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">pos_out_from_pos_lists</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">genes_start_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genes_end_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">barriers_pos</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.pos_out_from_pos_lists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate the list of postition intervals outside barriers and genes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>genes_start_pos</strong> (<em>Numpy array</em>) – Array of ints representing the begining position of genes.</p></li>
+<li><p><strong>genes_end_pos</strong> (<em>Numpy array</em>) – Array of ints representing the ending position of genes.</p></li>
+<li><p><strong>barriers_pos</strong> (<em>Numpy array</em>) – Array of ints representing the position of barriers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>out_positions</strong> – 2-D array of ints. Each line represents an open interval containing
+no gene nor barrier.range</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.pos_out_genes">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">pos_out_genes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_ini</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.pos_out_genes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a description of the genome described by a .ini file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_ini</strong> (<em>str</em>) – Initialization .ini file name.</p></li>
+<li><p><strong>folder</strong> (<em>str</em>) – folder of the .ini file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>start</strong> (<em>list of ints</em>) – Positions of gene starts</p></li>
+<li><p><strong>end</strong> (<em>list of ints</em>) – Positions of gene ends</p></li>
+<li><p><strong>barr</strong> (<em>list of ints</em>) – Positionds of topological barriers</p></li>
+<li><p><strong>out</strong> (<em>Numpy array</em>) – 2-D array of ints. Each line represents an open interval containing
+no gene nor barrier</p></li>
+<li><p><strong>genome_size</strong> (<em>int</em>) – Number of base pairs in the genome.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.sample">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Ngen</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sample a location from a given list of intervals that satisfies the “distance to bounds condition”
+(there is at least u nucleotides between the right and left bound and the sampled mutation position)
+This allows a deletion to happen without being to close to a gene or barrier.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>out</strong> (<em>Python list</em>) – list of the open position intervals in the genome where there are not any genes</p></li>
+<li><p><strong>Ngen</strong> (<em>int</em>) – the length of the genome</p></li>
+<li><p><strong>u</strong> (<em>int</em>) – unit of length of nucleotides.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>mut_pos</strong> – sampled location of the mutation</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.target_expression">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">target_expression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">environment_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.target_expression" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the target expression from given file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>environment_file</strong> (<em>str</em>) – Path and name of the environment file (giving the target relative
+expression levels)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>target_expresstion</strong> – Array of floats representing target relative expression level for each
+gene.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Numpy array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="ourCode.update_files">
+<span class="sig-prename descclassname"><span class="pre">ourCode.</span></span><span class="sig-name descname"><span class="pre">update_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">genome_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genes_start_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">genes_end_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">barriers_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gff_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tss_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tts_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">barr_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ourCode.update_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the initialization files for the transcription simulation.</p>
+<p>The event can either be a genome inversion (with proba inversion_proba),
+or an indel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>genome_size</strong> (<em>int</em>) – Genome size in base pair.</p></li>
+<li><p><strong>genes_start_pos</strong> (<em>Numpy array</em>) – Array of ints representing the begining position of genes.</p></li>
+<li><p><strong>genes_end_pos</strong> (<em>Numpy array</em>) – Array of ints representing the ending position of genes.</p></li>
+<li><p><strong>barriers_pos</strong> (<em>Numpy array</em>) – Array of ints representing the position of barriers.</p></li>
+<li><p><strong>gff_file</strong> (<em>str</em>) – Name of the .gff file (gene positions).</p></li>
+<li><p><strong>tss_file</strong> (<em>str array</em>) – Name of the TSS file (gene start positions).</p></li>
+<li><p><strong>tts_file</strong> (<em>str</em>) – Name of the TTS file (gene end positions).</p></li>
+<li><p><strong>barr_file</strong> (<em>str</em>) – Name of the .dat file containing barrier positions</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Nothing is returned, but the files are created or updated.</p>
+</div>
+</dd></dl>
+
+</section>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        «&#160;&#160;<a href="modules.html">&lt;no title&gt;</a>
+        &#160;&#160;::&#160;&#160;
+        <a class="uplink" href="index.html">Contents</a>
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Guilom.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.3.0.
+    </div>
+  </body>
+</html>
