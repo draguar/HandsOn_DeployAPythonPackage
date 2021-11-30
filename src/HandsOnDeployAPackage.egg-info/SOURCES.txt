@@ -1,0 +1,9 @@
+README.md
+ourCode.py
+setup.cfg
+setup.py
+HandsOnDeployAPackage.egg-info/PKG-INFO
+HandsOnDeployAPackage.egg-info/SOURCES.txt
+HandsOnDeployAPackage.egg-info/dependency_links.txt
+HandsOnDeployAPackage.egg-info/top_level.txt
+__pycache__/ourCode.cpython-38.pyc
